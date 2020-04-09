@@ -1,5 +1,7 @@
-import makeRuleComposer from "../makeRuleComposer";
-import { RuleFunction, RuleResult } from "../types";
+import makeRuleComposer, {
+  RuleFunction,
+  RuleResult
+} from "../makeRuleComposer";
 
 const getResults = (rules: RuleFunction[], arg: any) => {
   return rules.reduce<RuleResult[]>((acc, rule) => [...acc, rule(arg)], []);

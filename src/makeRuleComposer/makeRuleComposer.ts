@@ -1,4 +1,6 @@
-import { RuleResult, RuleFunction } from "../types";
+export type RuleResult = boolean;
+
+export type RuleFunction = (arg: any) => boolean;
 
 interface MakeRuleComposerConfig {
   getResults: (rules: RuleFunction[], arg: any) => RuleResult[];
