@@ -9,7 +9,6 @@
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "test": "ava",
-    "pretest": "yarn build",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check ."
   },
