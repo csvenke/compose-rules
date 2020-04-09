@@ -18,12 +18,28 @@ jobs:
           node-version: 12
       - name: Installing dependencies
         run: yarn install
+      - name: Running prettier
+        run: yarn prettier:check
       - name: Building project
         run: yarn build
       - name: Running tests
         run: yarn test
-      - name: Uploading dist
-        uses: actions/upload-artifact@v1
+
+  release:
+    needs: build
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out project
+        uses: actions/checkout@v2
+      - name: Setting up node
+        uses: actions/setup-node@v1
         with:
-          name: dist
-          path: dist
+          node-version: 12
+      - name: Building project
+        run: yarn build
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
