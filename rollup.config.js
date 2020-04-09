@@ -1,14 +1,21 @@
-import typescript from "@rollup/plugin-typescript";
+import babel from "rollup-plugin-babel";
+import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
+import pkg from "./package.json";
 
-export default {
+const config = {
   input: "src/index.ts",
-  output: {
-    dir: "dist",
-    format: "cjs"
-  },
-  treeshake: {
-    moduleSideEffects: false
-  },
-  plugins: [typescript(), terser()]
+  output: [
+    {
+      file: pkg.main,
+      format: "cjs"
+    },
+    {
+      file: pkg.module,
+      format: "esm"
+    }
+  ],
+  plugins: [typescript({ useTsconfigDeclarationDir: true }), babel(), terser()]
 };
+
+module.exports = config;

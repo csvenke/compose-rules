@@ -1,18 +1,14 @@
 {
   "compilerOptions": {
-    /* Basic Options */
-    "target": "es5",
-
-    /* Strict Type-Checking Options */
-    "strict": true,
-
-    /* Module Resolution Options */
+    "target": "esnext",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-
-    /* Advanced Options */
-    "forceConsistentCasingInFileNames": true
+    "declaration": true,
+    "declarationDir": "dist/@types",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }

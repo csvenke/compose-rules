@@ -1,5 +1,5 @@
-const test = require("ava");
-const composeRules = require("../dist");
+import test from "ava";
+import composeRules from "../dist";
 
 const isAlwaysTrue = () => true;
 const isAlwaysFalse = () => false;
