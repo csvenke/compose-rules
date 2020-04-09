@@ -1,4 +1,3 @@
-
 <a href="https://www.npmjs.com/package/@csvenke/compose-rules">
   <img src="https://badgen.net/npm/v/@csvenke/compose-rules" alt="npm package" />
 </a>
