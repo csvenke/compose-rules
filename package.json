@@ -49,9 +49,9 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tsc"
+      "tsc -p tsconfig.json"
     ],
-    "*.{js,ts,json,yml}": [
+    "*.{js,ts,json,yml,md}": [
       "prettier --write"
     ]
   }
