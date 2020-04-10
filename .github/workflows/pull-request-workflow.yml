@@ -15,7 +15,9 @@ jobs:
           node-version: 12
       - name: Installing dependencies
         run: yarn install
-      - name: Running prettier
+      - name: Checking types
+        run: yarn check-types
+      - name: Running linters
         run: yarn prettier:check
       - name: Building project
         run: yarn build
