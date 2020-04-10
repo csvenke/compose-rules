@@ -10,7 +10,7 @@
 
 # @csvenke/compose-rules
 
-## Installing
+## Install
 
 Using yarn
 
