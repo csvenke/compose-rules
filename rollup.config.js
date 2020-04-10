@@ -8,11 +8,13 @@ const config = {
   output: [
     {
       file: pkg.main,
-      format: "cjs"
+      format: "cjs",
+      exports: "named"
     },
     {
       file: pkg.module,
-      format: "esm"
+      format: "esm",
+      exports: "named"
     }
   ],
   plugins: [typescript({ useTsconfigDeclarationDir: true }), babel(), terser()]

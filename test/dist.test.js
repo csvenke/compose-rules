@@ -1,14 +1,18 @@
 import test from "ava";
-import composeRules from "../dist";
+import { and, or, not } from "../dist";
 
 const isAlwaysTrue = () => true;
 const isAlwaysFalse = () => false;
-const isLargerThanOne = n => n > 1;
-const isLessThanTen = n => n < 10;
-const isLessThanEigth = n => n < 8;
+const isLargerThanOne = arg => arg > 1;
+const isLessThanTen = arg => arg < 10;
+const isLessThanEigth = arg => arg < 8;
+
+const isString = arg => typeof arg === "string";
+const isNamedJohn = arg => arg === "John";
+const isNamedJane = arg => arg === "Jane";
 
 test("should return true when all rules return true", t => {
-  const myRule = composeRules(isLargerThanOne, isLessThanTen, isLessThanEigth);
+  const myRule = and(isLargerThanOne, isLessThanTen, isLessThanEigth);
 
   t.is(myRule(2), true);
   t.is(myRule(3), true);
@@ -19,7 +23,7 @@ test("should return true when all rules return true", t => {
 });
 
 test("should return false when one rule returns false", t => {
-  const myRule = composeRules(isLargerThanOne, isLessThanTen, isLessThanEigth);
+  const myRule = and(isLargerThanOne, isLessThanTen, isLessThanEigth);
 
   t.is(myRule(1), false);
   t.is(myRule(8), false);
@@ -28,49 +32,54 @@ test("should return false when one rule returns false", t => {
 });
 
 test("should return true when composing composed rules", t => {
-  const myRule1 = composeRules(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule2 = composeRules(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule3 = composeRules(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule4 = composeRules(myRule1, myRule2, myRule3);
+  const myRule1 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
+  const myRule2 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
+  const myRule3 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
+  const myRule4 = and(myRule1, myRule2, myRule3);
 
   t.is(myRule4(4), true);
 });
 
 test("should return false when composing composed rules", t => {
-  const myRule1 = composeRules(isAlwaysTrue, isAlwaysFalse, isAlwaysFalse);
-  const myRule2 = composeRules(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
-  const myRule3 = composeRules(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
-  const myRule4 = composeRules(myRule1, myRule2, myRule3);
+  const myRule1 = and(isAlwaysTrue, isAlwaysFalse, isAlwaysFalse);
+  const myRule2 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
+  const myRule3 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
+  const myRule4 = and(myRule1, myRule2, myRule3);
 
   t.is(myRule4(4), false);
 });
 
 test("should return true when composing composed composed composed rules", t => {
-  const myRule1 = composeRules(isAlwaysTrue, isAlwaysTrue);
-  const myRule2 = composeRules(myRule1, myRule1, myRule1);
-  const myRule3 = composeRules(
-    myRule2,
-    myRule2,
-    myRule2,
-    myRule1,
-    isAlwaysTrue
-  );
-  const myRule4 = composeRules(myRule1, myRule2, myRule3, isAlwaysTrue);
+  const myRule1 = and(isAlwaysTrue, isAlwaysTrue);
+  const myRule2 = and(myRule1, myRule1, myRule1);
+  const myRule3 = and(myRule2, myRule2, myRule2, myRule1, isAlwaysTrue);
+  const myRule4 = and(myRule1, myRule2, myRule3, isAlwaysTrue);
 
   t.is(myRule4(4), true);
 });
 
 test("should return false when composing composed composed composed rules", t => {
-  const myRule1 = composeRules(isAlwaysTrue, isAlwaysFalse);
-  const myRule2 = composeRules(myRule1, myRule1, myRule1);
-  const myRule3 = composeRules(
-    myRule2,
-    myRule2,
-    myRule2,
-    myRule1,
-    isAlwaysTrue
-  );
-  const myRule4 = composeRules(myRule1, myRule2, myRule3, isAlwaysTrue);
+  const myRule1 = and(isAlwaysTrue, isAlwaysFalse);
+  const myRule2 = and(myRule1, myRule1, myRule1);
+  const myRule3 = and(myRule2, myRule2, myRule2, myRule1, isAlwaysTrue);
+  const myRule4 = and(myRule1, myRule2, myRule3, isAlwaysTrue);
 
   t.is(myRule4(4), false);
+});
+
+test("should return expected result when combining 'and' and 'or'", t => {
+  const myRule = and(isString, or(isNamedJane, isNamedJohn));
+
+  t.is(myRule("John"), true);
+  t.is(myRule("Jane"), true);
+  t.is(myRule("Bill"), false);
+});
+
+test("should return expected result when combining 'and' and 'not'", t => {
+  const myRule = and(
+    isAlwaysTrue,
+    not(isAlwaysFalse, isAlwaysFalse, isAlwaysFalse)
+  );
+
+  t.is(myRule(123), true);
 });
