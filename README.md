@@ -7,6 +7,9 @@
 <a href="https://github.com/csvenke/compose-rules/actions?query=workflow%3Amaster">
   <img src="https://github.com/csvenke/compose-rules/workflows/master/badge.svg" alt="master workflow" />
 </a>
+<a href="https://github.com/csvenke/compose-rules/actions?query=workflow%3A%22pull+request%22">
+  <img src="https://github.com/csvenke/compose-rules/workflows/pull%20request/badge.svg" alt="pull request workflow" />
+</a>
 
 # @csvenke/compose-rules
 
