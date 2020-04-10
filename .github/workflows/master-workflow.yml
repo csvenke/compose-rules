@@ -22,8 +22,6 @@ jobs:
         run: yarn check-types
       - name: Running linters
         run: yarn prettier:check
-      - name: Building project
-        run: yarn build
       - name: Running tests
         run: yarn test
 
