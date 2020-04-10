@@ -1,6 +1,7 @@
 import makeRuleComposer, {
   RuleFunction,
-  RuleResult
+  RuleResult,
+  RuleComposerConfig
 } from "../makeRuleComposer";
 
 const getResults = (rules: RuleFunction[], arg: any) => {
@@ -12,6 +13,11 @@ const validateResults = (results: RuleResult[]) => {
   return results.every(validateResult);
 };
 
-const composeRules = makeRuleComposer({ getResults, validateResults });
+const config: RuleComposerConfig = {
+  getResults,
+  validateResults
+};
+
+const composeRules = makeRuleComposer(config);
 
 export default composeRules;

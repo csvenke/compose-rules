@@ -2,12 +2,12 @@ export type RuleResult = boolean;
 
 export type RuleFunction = (arg: any) => boolean;
 
-interface MakeRuleComposerConfig {
+export interface RuleComposerConfig {
   getResults: (rules: RuleFunction[], arg: any) => RuleResult[];
   validateResults: (results: RuleResult[]) => boolean;
 }
 
-const makeRuleComposer = (config: MakeRuleComposerConfig) => <T = any>(
+const makeRuleComposer = (config: RuleComposerConfig) => <T = any>(
   ...rules: RuleFunction[]
 ) => (arg: T) => {
   const { getResults, validateResults } = config;
