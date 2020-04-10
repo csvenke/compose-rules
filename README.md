@@ -32,12 +32,27 @@ npm install --save @csvenke/compose-rules
 ```js
 import composeRules from "@csvenke/compose-rules";
 
+const isNumber = n => typeof n === "number";
 const isLessThanTen = n => n < 10;
 const isGreaterThanFive = n => n > 5;
 
-const myRule = composeRules(isLessThanTen, isGreaterThanFive);
+const myRule = composeRules(isNumber, isLessThanTen, isGreaterThanFive);
 
-if (myRule(7)) {
+if (myRule(6)) {
+  // do something
+}
+```
+
+```js
+import { and, or } from "@csvenke/compose-rules";
+
+const isString = name => typeof name === "string";
+const isNamedJohn = name => name === "John";
+const isNamedJane = name => name === "Jane";
+
+const hasValidName = and(isString, or(isNamedJohn, isNamedJane));
+
+if (hasValidName("John")) {
   // do something
 }
 ```
