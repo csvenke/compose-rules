@@ -36,9 +36,9 @@ const isNumber = n => typeof n === "number";
 const isLessThanTen = n => n < 10;
 const isGreaterThanFive = n => n > 5;
 
-const myRule = composeRules(isNumber, isLessThanTen, isGreaterThanFive);
+const hasValidValue = composeRules(isNumber, isLessThanTen, isGreaterThanFive);
 
-if (myRule(6)) {
+if (hasValidValue(6)) {
   // do something
 }
 ```
