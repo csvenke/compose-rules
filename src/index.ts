@@ -4,15 +4,11 @@ interface RuleComposerConfig {
   resultValidator: (results: boolean[]) => boolean;
 }
 
-const getResults = (rules: Rule[], arg: any) => {
-  return rules.reduce<boolean[]>((acc, rule) => [...acc, rule(arg)], []);
-};
-
 const makeRuleComposer = (config: RuleComposerConfig) => (...rules: Rule[]) => (
   arg: any
 ) => {
   const { resultValidator } = config;
-  const results = getResults(rules, arg);
+  const results = rules.map(rule => rule(arg));
   return resultValidator(results);
 };
 
