@@ -1,114 +1,161 @@
 import test from "ava";
 import { and, or, not } from "../dist";
 
+interface Person {
+  firstName: string;
+  lastName: string;
+}
+
 const isAlwaysTrue = () => true;
+
 const isAlwaysFalse = () => false;
-const isLargerThanOne = (arg: number) => arg > 1;
-const isLessThanTen = (arg: number) => arg < 10;
-const isLessThanEigth = (arg: number) => arg < 8;
 
-const isString = (arg: string) => typeof arg === "string";
-const isNamedJohn = (arg: string) => arg === "John";
-const isNamedJane = (arg: string) => arg === "Jane";
+const isPerson = (person?: Person) =>
+  typeof person?.firstName === "string" && typeof person?.lastName === "string";
 
-test("should return true when all rules return true", t => {
-  const myRule = and(isLargerThanOne, isLessThanTen, isLessThanEigth);
+const isNamedJohnDoe = (person: Person) =>
+  person.firstName === "John" && person.lastName === "Doe";
 
-  t.is(myRule(2), true);
-  t.is(myRule(3), true);
-  t.is(myRule(4), true);
-  t.is(myRule(5), true);
-  t.is(myRule(6), true);
-  t.is(myRule(7), true);
-});
-
-test("should return false when one rule returns false", t => {
-  const myRule = and(isLargerThanOne, isLessThanTen, isLessThanEigth);
-
-  t.is(myRule(1), false);
-  t.is(myRule(8), false);
-  t.is(myRule(9), false);
-  t.is(myRule(10), false);
-});
-
-test("should return true when composing composed rules", t => {
-  const myRule1 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule2 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule3 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue);
-  const myRule4 = and(myRule1, myRule2, myRule3);
-
-  t.is(myRule4(4), true);
-});
-
-test("should return false when composing composed rules", t => {
-  const myRule1 = and(isAlwaysTrue, isAlwaysFalse, isAlwaysFalse);
-  const myRule2 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
-  const myRule3 = and(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse);
-  const myRule4 = and(myRule1, myRule2, myRule3);
-
-  t.is(myRule4(4), false);
-});
-
-test("should return true when composing composed composed composed rules", t => {
-  const myRule1 = and(isAlwaysTrue, isAlwaysTrue);
-  const myRule2 = and(myRule1, myRule1, myRule1);
-  const myRule3 = and(myRule2, myRule2, myRule2, myRule1, isAlwaysTrue);
-  const myRule4 = and(myRule1, myRule2, myRule3, isAlwaysTrue);
-
-  t.is(myRule4(4), true);
-});
-
-test("should return false when composing composed composed composed rules", t => {
-  const myRule1 = and(isAlwaysTrue, isAlwaysFalse);
-  const myRule2 = and(myRule1, myRule1, myRule1);
-  const myRule3 = and(myRule2, myRule2, myRule2, myRule1, isAlwaysTrue);
-  const myRule4 = and(myRule1, myRule2, myRule3, isAlwaysTrue);
-
-  t.is(myRule4(4), false);
-});
-
-test("should return expected result when combining 'and' and 'or'", t => {
-  const myRule = and(isString, or(isNamedJane, isNamedJohn));
-
-  t.is(myRule("John"), true);
-  t.is(myRule("Jane"), true);
-  t.is(myRule("Bill"), false);
-});
-
-test("should return expected result when combining 'and' and 'not'", t => {
-  const myRule = and(
-    isAlwaysTrue,
-    not(isAlwaysFalse, isAlwaysFalse, isAlwaysFalse)
-  );
-
-  t.is(myRule(123), true);
-});
-
-test("should stop resolving rules when first rule fails", t => {
-  interface Person {
-    firstName: string;
-    lastName: string;
+const testCases = [
+  {
+    title: "and > should return true when all rules returns true",
+    data: {
+      arg: 42,
+      rule: and(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue),
+      result: true
+    }
+  },
+  {
+    title: "and > should return false when some rules return false",
+    data: {
+      arg: 42,
+      rule: and(isAlwaysTrue, isAlwaysTrue, isAlwaysFalse),
+      result: false
+    }
+  },
+  {
+    title: "and > should return false without resolving the last rule",
+    data: {
+      arg: undefined,
+      rule: and(isPerson, isNamedJohnDoe),
+      result: false
+    }
+  },
+  {
+    title: "or > should return true when some rules returns true",
+    data: {
+      arg: 42,
+      rule: or(isAlwaysFalse, isAlwaysTrue, isAlwaysFalse),
+      result: true
+    }
+  },
+  {
+    title: "or > should return false when all rules returns false",
+    data: {
+      arg: 42,
+      rule: or(isAlwaysFalse, isAlwaysFalse, isAlwaysFalse),
+      result: false
+    }
+  },
+  {
+    title: "not > should return true when all rules returns false",
+    data: {
+      arg: 42,
+      rule: not(isAlwaysFalse, isAlwaysFalse, isAlwaysFalse),
+      result: true
+    }
+  },
+  {
+    title: "not > should return false when all rules returns true",
+    data: {
+      arg: 42,
+      rule: not(isAlwaysTrue, isAlwaysTrue, isAlwaysTrue),
+      result: false
+    }
+  },
+  {
+    title: "and > should return true when combining all composers",
+    data: {
+      arg: 42,
+      rule: and(
+        isAlwaysTrue,
+        isAlwaysTrue,
+        or(isAlwaysTrue, isAlwaysFalse),
+        not(isAlwaysFalse, isAlwaysFalse)
+      ),
+      result: true
+    }
+  },
+  {
+    title: "and > should return false when combining all composers",
+    data: {
+      arg: 42,
+      rule: and(
+        isAlwaysTrue,
+        isAlwaysFalse,
+        or(isAlwaysTrue, isAlwaysFalse),
+        not(isAlwaysFalse, isAlwaysFalse)
+      ),
+      result: false
+    }
+  },
+  {
+    title: "or > should return true when combining all composers",
+    data: {
+      arg: 42,
+      rule: or(
+        isAlwaysTrue,
+        isAlwaysTrue,
+        or(isAlwaysTrue, isAlwaysFalse),
+        not(isAlwaysFalse, isAlwaysFalse)
+      ),
+      result: true
+    }
+  },
+  {
+    title: "or > should return false when combining all composers",
+    data: {
+      arg: 42,
+      rule: or(
+        isAlwaysFalse,
+        isAlwaysFalse,
+        and(isAlwaysTrue, isAlwaysFalse),
+        not(isAlwaysTrue, isAlwaysFalse)
+      ),
+      result: false
+    }
+  },
+  {
+    title: "not > should return true when combining all composers",
+    data: {
+      arg: 42,
+      rule: not(
+        isAlwaysFalse,
+        isAlwaysFalse,
+        or(isAlwaysTrue, isAlwaysFalse),
+        and(isAlwaysFalse, isAlwaysFalse)
+      ),
+      result: true
+    }
+  },
+  {
+    title: "not > should return false when combining all composers",
+    data: {
+      arg: 42,
+      rule: not(
+        isAlwaysTrue,
+        isAlwaysTrue,
+        or(isAlwaysFalse, isAlwaysTrue),
+        and(isAlwaysTrue, isAlwaysTrue)
+      ),
+      result: false
+    }
   }
-  const jane = {
-    firstName: "Jane",
-    lastName: "Doe"
-  };
-  const john = {
-    firstName: "John",
-    lastName: "Doe"
-  };
-  const none = undefined;
+];
 
-  const isPerson = (arg: any) =>
-    typeof arg?.firstName === "string" && typeof arg?.lastName === "string";
-  const isNamedJohnDoe = (arg: Person) =>
-    arg.firstName === "John" && arg.lastName === "Doe";
-  const isNamedJaneDoe = (arg: Person) =>
-    arg.firstName === "Jane" && arg.lastName === "Doe";
-
-  const myRule = and(isPerson, or(isNamedJaneDoe, isNamedJohnDoe));
-
-  t.is(myRule(none), false);
-  t.is(myRule(john), true);
-  t.is(myRule(jane), true);
+testCases.forEach(testCase => {
+  const { title, data } = testCase;
+  test(title, t => {
+    t.deepEqual(data.rule(data.arg), data.result);
+  });
 });
