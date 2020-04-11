@@ -98,6 +98,30 @@ console.log(hasValidName("Jane")); // false
 console.log(hasValidName("John")); // false
 ```
 
+## Development
+
+Installing dependencies
+
+```
+yarn install
+```
+
+Building project
+
+```
+yarn build
+```
+
+Running tests
+
+```
+yarn test
+```
+
+## Contributing
+
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+
 ## License
 
-MIT
+[MIT](https://github.com/csvenke/compose-rules/blob/master/LICENSE)
