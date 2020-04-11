@@ -3,13 +3,13 @@ import { and, or, not } from "../dist";
 
 const isAlwaysTrue = () => true;
 const isAlwaysFalse = () => false;
-const isLargerThanOne = arg => arg > 1;
-const isLessThanTen = arg => arg < 10;
-const isLessThanEigth = arg => arg < 8;
+const isLargerThanOne = (arg: number) => arg > 1;
+const isLessThanTen = (arg: number) => arg < 10;
+const isLessThanEigth = (arg: number) => arg < 8;
 
-const isString = arg => typeof arg === "string";
-const isNamedJohn = arg => arg === "John";
-const isNamedJane = arg => arg === "Jane";
+const isString = (arg: string) => typeof arg === "string";
+const isNamedJohn = (arg: string) => arg === "John";
+const isNamedJane = (arg: string) => arg === "Jane";
 
 test("should return true when all rules return true", t => {
   const myRule = and(isLargerThanOne, isLessThanTen, isLessThanEigth);

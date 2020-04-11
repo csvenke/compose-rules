@@ -44,7 +44,11 @@
   "prettier": "@csvenke/prettier-config",
   "ava": {
     "verbose": true,
-    "babel": true
+    "babel": {
+      "extensions": [
+        "ts"
+      ]
+    }
   },
   "husky": {
     "hooks": {
