@@ -46,7 +46,7 @@ if (hasValidValue(7)) {
 
 ## API
 
-### [**and**](#and)
+### **and**
 
 Will resolve all rules in left-to-right order.  
 Returns a rule function that returns true if all rules are true.
@@ -63,7 +63,7 @@ console.log(hasValidValue(11)); // false
 console.log(hasValidValue(5)); // true
 ```
 
-### [**or**](#or)
+### **or**
 
 Will resolve all rules in left-to-right order.  
 Returns a rule function that returns true if some rules are true.
@@ -80,7 +80,7 @@ console.log(hasValidName("Bill")); // false
 console.log(hasValidName("Jane")); // true
 ```
 
-### [**not**]()
+### **not**
 
 Will resolve all rules in left-to-right order.  
 Returns a rule function that returns true if all rules are false.
