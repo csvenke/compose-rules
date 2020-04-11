@@ -13,6 +13,8 @@
 
 # @csvenke/compose-rules
 
+> Simple helper functions for writing composable business rules
+
 ## Install
 
 Using yarn
@@ -29,32 +31,71 @@ npm install --save @csvenke/compose-rules
 
 ## Usage
 
-```js
+```ts
 import composeRules from "@csvenke/compose-rules";
 
-const isNumber = n => typeof n === "number";
-const isLessThanTen = n => n < 10;
-const isGreaterThanFive = n => n > 5;
+const isLargerThanOne = arg => arg > 1;
+const isLessThanTen = arg => arg < 10;
 
-const hasValidValue = composeRules(isNumber, isLessThanTen, isGreaterThanFive);
+const hasValidValue = composeRules(isLargerThanOne, isLessThanTen);
 
-if (hasValidValue(6)) {
+if (hasValidValue(7)) {
   // do something
 }
 ```
 
-```js
-import { and, or } from "@csvenke/compose-rules";
+## API
 
-const isString = name => typeof name === "string";
+### [**and**](#and)
+
+Will resolve all rules in left-to-right order.  
+Returns a rule function that returns true if all rules are true.
+
+```js
+import { and } from "@csvenke/compose-rules";
+
+const isLargerThanOne = n => n > 1;
+const isLessThanTen = n => n < 10;
+
+const hasValidValue = and(isLargerThanOne, isLessThanTen);
+
+console.log(hasValidValue(11)); // false
+console.log(hasValidValue(5)); // true
+```
+
+### [**or**](#or)
+
+Will resolve all rules in left-to-right order.  
+Returns a rule function that returns true if some rules are true.
+
+```js
+import { or } from "@csvenke/compose-rules";
+
 const isNamedJohn = name => name === "John";
 const isNamedJane = name => name === "Jane";
 
-const hasValidName = and(isString, or(isNamedJohn, isNamedJane));
+const hasValidName = or(isNamedJohn, isNamedJane);
 
-if (hasValidName("John")) {
-  // do something
-}
+console.log(hasValidName("Bill")); // false
+console.log(hasValidName("Jane")); // true
+```
+
+### [**not**]()
+
+Will resolve all rules in left-to-right order.  
+Returns a rule function that returns true if all rules are false.
+
+```js
+import { not } from "@csvenke/compose-rules";
+
+const isNamedJohn = name => name === "John";
+const isNamedJane = name => name === "Jane";
+
+const hasValidName = not(isNamedJohn, isNamedJane);
+
+console.log(hasValidName("Bill")); // true
+console.log(hasValidName("Jane")); // false
+console.log(hasValidName("John")); // false
 ```
 
 ## License
