@@ -83,3 +83,32 @@ test("should return expected result when combining 'and' and 'not'", t => {
 
   t.is(myRule(123), true);
 });
+
+test("should stop resolving rules when first rule fails", t => {
+  interface Person {
+    firstName: string;
+    lastName: string;
+  }
+  const jane = {
+    firstName: "Jane",
+    lastName: "Doe"
+  };
+  const john = {
+    firstName: "John",
+    lastName: "Doe"
+  };
+  const none = undefined;
+
+  const isPerson = (arg: any) =>
+    typeof arg?.firstName === "string" && typeof arg?.lastName === "string";
+  const isNamedJohnDoe = (arg: Person) =>
+    arg.firstName === "John" && arg.lastName === "Doe";
+  const isNamedJaneDoe = (arg: Person) =>
+    arg.firstName === "Jane" && arg.lastName === "Doe";
+
+  const myRule = and(isPerson, or(isNamedJaneDoe, isNamedJohnDoe));
+
+  t.is(myRule(none), false);
+  t.is(myRule(john), true);
+  t.is(myRule(jane), true);
+});
