@@ -1,26 +1,12 @@
-type RuleResult = boolean;
+type Rule<T> = (arg: T) => boolean;
 
-type Rule<T> = (arg: T) => RuleResult;
+type Handler = <T>(rules: Rule<T>[], arg: T) => boolean;
 
-type ResolveResult = (results: RuleResult[]) => RuleResult;
-
-type ResolveRules<T> = (rules: Rule<T>[], arg: T) => RuleResult[];
-
-type RuleComposerConfig<T> = {
-  resolveRules: ResolveRules<T>;
-  resolveResult: ResolveResult;
-};
-
-function makeRuleComposer<T = any>(config: RuleComposerConfig<T>) {
-  const { resolveRules, resolveResult } = config;
-  return (...rules: Rule<T>[]): Rule<T> => arg => {
-    const results = resolveRules(rules, arg);
-    const result = resolveResult(results);
-    return result;
-  };
+function makeRuleComposer(handler: Handler) {
+  return <T = any>(...rules: Rule<T>[]): Rule<T> => arg => handler(rules, arg);
 }
 
-function resolveRules<T>(rules: Rule<T>[], arg: T) {
+function resolveRules(rules: Rule<any>[], arg: any) {
   let results = [];
   for (let rule of rules) {
     const result = rule(arg);
@@ -32,23 +18,31 @@ function resolveRules<T>(rules: Rule<T>[], arg: T) {
   return results;
 }
 
-function resolveAllRules<T>(rules: Rule<T>[], arg: T) {
+function resolveAllRules(rules: Rule<any>[], arg: any) {
   return rules.map(rule => rule(arg));
 }
 
-const and = makeRuleComposer({
-  resolveRules: resolveRules,
-  resolveResult: results => results.every(result => result)
+function isTrue(result: boolean) {
+  return result === true;
+}
+
+function isFalse(result: boolean) {
+  return result === false;
+}
+
+const and = makeRuleComposer((rules, arg) => {
+  const results = resolveRules(rules, arg);
+  return results.every(isTrue);
 });
 
-const or = makeRuleComposer({
-  resolveRules: resolveAllRules,
-  resolveResult: results => results.some(result => result)
+const or = makeRuleComposer((rules, arg) => {
+  const results = resolveAllRules(rules, arg);
+  return results.some(isTrue);
 });
 
-const not = makeRuleComposer({
-  resolveRules: resolveRules,
-  resolveResult: results => results.every(result => !result)
+const not = makeRuleComposer((rules, arg) => {
+  const results = resolveRules(rules, arg);
+  return results.every(isFalse);
 });
 
 export { and, or, not };
