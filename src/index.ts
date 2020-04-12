@@ -1,22 +1,26 @@
-type RuleFunction = (arg: any) => boolean;
+type RuleResult = boolean;
 
-type RuleComposerConfig = {
-  resolveRules: (rules: RuleFunction[], arg: any) => boolean[];
-  resolveResult: (results: boolean[]) => boolean;
+type Rule<T> = (arg: T) => RuleResult;
+
+type ResolveResult = (results: RuleResult[]) => RuleResult;
+
+type ResolveRules<T> = (rules: Rule<T>[], arg: T) => RuleResult[];
+
+type RuleComposerConfig<T> = {
+  resolveRules: ResolveRules<T>;
+  resolveResult: ResolveResult;
 };
 
-const makeRuleComposer = (config: RuleComposerConfig) => {
+function makeRuleComposer<T = any>(config: RuleComposerConfig<T>) {
   const { resolveRules, resolveResult } = config;
-  return (...rules: RuleFunction[]) => {
-    return (arg: any) => {
-      const results = resolveRules(rules, arg);
-      const result = resolveResult(results);
-      return result;
-    };
+  return (...rules: Rule<T>[]): Rule<T> => arg => {
+    const results = resolveRules(rules, arg);
+    const result = resolveResult(results);
+    return result;
   };
-};
+}
 
-const resolveRules = (rules: RuleFunction[], arg: any) => {
+function resolveRules<T>(rules: Rule<T>[], arg: T) {
   let results = [];
   for (let rule of rules) {
     const result = rule(arg);
@@ -26,24 +30,25 @@ const resolveRules = (rules: RuleFunction[], arg: any) => {
     }
   }
   return results;
-};
+}
 
-const resolveAllRules = (rules: RuleFunction[], arg: any) =>
-  rules.map(rule => rule(arg));
+function resolveAllRules<T>(rules: Rule<T>[], arg: T) {
+  return rules.map(rule => rule(arg));
+}
 
-export const and = makeRuleComposer({
-  resolveRules,
+const and = makeRuleComposer({
+  resolveRules: resolveRules,
   resolveResult: results => results.every(result => result)
 });
 
-export const not = makeRuleComposer({
-  resolveRules,
-  resolveResult: results => results.every(result => !result)
-});
-
-export const or = makeRuleComposer({
+const or = makeRuleComposer({
   resolveRules: resolveAllRules,
   resolveResult: results => results.some(result => result)
 });
 
-export default and;
+const not = makeRuleComposer({
+  resolveRules: resolveRules,
+  resolveResult: results => results.every(result => !result)
+});
+
+export { and, or, not };

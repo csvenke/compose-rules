@@ -12,13 +12,11 @@ const config = {
   output: [
     {
       file: pkg.main,
-      format: "cjs",
-      exports: "named"
+      format: "cjs"
     },
     {
       file: pkg.module,
-      format: "esm",
-      exports: "named"
+      format: "esm"
     }
   ],
   treeshake: {
