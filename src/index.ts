@@ -1,6 +1,6 @@
 type Rule<T> = (arg: T) => boolean;
 
-type Handler = <T>(rules: Rule<T>[], arg: T) => boolean;
+type Handler = (rules: Rule<any>[], arg: any) => boolean;
 
 function makeRuleComposer(handler: Handler) {
   return <T = any>(...rules: Rule<T>[]): Rule<T> => arg => handler(rules, arg);
