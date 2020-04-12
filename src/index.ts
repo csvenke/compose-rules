@@ -26,19 +26,17 @@ function isFalse(result: boolean) {
   return result === false;
 }
 
-const and = makeRuleComposer((rules, arg) => {
+export const and = makeRuleComposer((rules, arg) => {
   const results = resolveRules(rules, arg);
   return results.every(isTrue);
 });
 
-const or = makeRuleComposer((rules, arg) => {
+export const or = makeRuleComposer((rules, arg) => {
   const results = resolveRules(rules, arg, true);
   return results.some(isTrue);
 });
 
-const not = makeRuleComposer((rules, arg) => {
+export const not = makeRuleComposer((rules, arg) => {
   const results = resolveRules(rules, arg);
   return results.every(isFalse);
 });
-
-export { and, or, not };
