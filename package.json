@@ -3,6 +3,15 @@
   "description": "Simple helper functions for writing composable business rules",
   "version": "0.0.1",
   "license": "MIT",
+  "author": "Christian Svenkerud",
+  "keywords": [
+    "compose-rules",
+    "library",
+    "compose",
+    "helpers",
+    "javascript",
+    "typescript"
+  ],
   "repository": {
     "url": "https://github.com/csvenke/compose-rules"
   },
