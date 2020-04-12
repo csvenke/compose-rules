@@ -21,6 +21,9 @@ const config = {
       exports: "named"
     }
   ],
+  treeshake: {
+    moduleSideEffects: false
+  },
   plugins: [typescript(tsconfig), babel(), terser()]
 };
 
