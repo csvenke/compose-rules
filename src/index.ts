@@ -16,7 +16,7 @@ const makeRuleComposer = (config: RuleComposerConfig) => {
   };
 };
 
-const resolveRulesWithBail = (rules: RuleFunction[], arg: any) => {
+const resolveRules = (rules: RuleFunction[], arg: any) => {
   let results = [];
   for (let rule of rules) {
     const result = rule(arg);
@@ -32,12 +32,12 @@ const resolveAllRules = (rules: RuleFunction[], arg: any) =>
   rules.map(rule => rule(arg));
 
 export const and = makeRuleComposer({
-  resolveRules: resolveRulesWithBail,
+  resolveRules,
   resolveResult: results => results.every(result => result)
 });
 
 export const not = makeRuleComposer({
-  resolveRules: resolveRulesWithBail,
+  resolveRules,
   resolveResult: results => results.every(result => !result)
 });
 
