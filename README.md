@@ -34,25 +34,29 @@ npm install --save @csvenke/compose-rules
 
 ## Usage
 
-```ts
-import composeRules from "@csvenke/compose-rules";
+Try it out online with [replit](https://repl.it/@csvenke/WorseMiserlyScale)
 
-const isLargerThanOne = arg => arg > 1;
-const isLessThanTen = arg => arg < 10;
+```js
+import { and } from "@csvenke/compose-rules";
 
-const hasValidValue = composeRules(isLargerThanOne, isLessThanTen);
+const isNumber = n => typeof n === "number";
+const isLargerThanOne = n => n > 1;
+const isLessThanTen = n => n < 10;
 
-if (hasValidValue(7)) {
-  // do something
-}
+const isValidValue = and(isNumber, isLargerThanOne, isLessThanTen);
+
+console.log(isValidValue(4)); // true
+console.log(isValidValue(14)); // false
 ```
 
 ## API
 
 ### **and**
 
-Will resolve all rules in left-to-right order.  
-Returns a rule function that returns true if all rules are true.
+> Returns a rule function that returns true if all rules are true.  
+> Resolves rules in left-to-right order.
+
+#### Example
 
 ```js
 import { and } from "@csvenke/compose-rules";
@@ -68,8 +72,10 @@ console.log(hasValidValue(5)); // true
 
 ### **or**
 
-Will resolve all rules in left-to-right order.  
-Returns a rule function that returns true if some rules are true.
+> Returns a rule function that returns true if some rules are true.  
+> Resolves rules in left-to-right order.
+
+#### Example
 
 ```js
 import { or } from "@csvenke/compose-rules";
@@ -85,8 +91,10 @@ console.log(hasValidName("Jane")); // true
 
 ### **not**
 
-Will resolve all rules in left-to-right order.  
-Returns a rule function that returns true if all rules are false.
+> Returns a rule function that returns true if all rules are false.  
+> Resolves rules in left-to-right order.
+
+#### Example
 
 ```js
 import { not } from "@csvenke/compose-rules";
