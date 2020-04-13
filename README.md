@@ -53,8 +53,7 @@ console.log(isValidValue(14)); // false
 
 ### **and**
 
-> Returns a rule function that returns true if all rules are true.  
-> Resolves rules in left-to-right order.
+> Returns a rule function that returns true if all rules are true.
 
 #### Example
 
@@ -72,8 +71,7 @@ console.log(hasValidValue(5)); // true
 
 ### **or**
 
-> Returns a rule function that returns true if some rules are true.  
-> Resolves rules in left-to-right order.
+> Returns a rule function that returns true if some rules are true.
 
 #### Example
 
@@ -91,8 +89,7 @@ console.log(hasValidName("Jane")); // true
 
 ### **not**
 
-> Returns a rule function that returns true if all rules are false.  
-> Resolves rules in left-to-right order.
+> Returns a rule function that returns true if all rules are false.
 
 #### Example
 
