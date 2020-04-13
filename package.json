@@ -55,7 +55,13 @@
   "prettier": "@csvenke/prettier-config",
   "ava": {
     "verbose": true,
+    "files": [
+      "test/**/*.test.ts"
+    ],
     "babel": {
+      "compileAsTests": [
+        "test/helpers/**/*"
+      ],
       "extensions": [
         "ts"
       ]
