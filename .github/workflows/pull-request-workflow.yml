@@ -15,9 +15,10 @@ jobs:
           node-version: 12
       - name: Installing dependencies
         run: yarn install
-      - name: Checking types
-        run: yarn check-types
-      - name: Running linters
-        run: yarn prettier:check
       - name: Running tests
-        run: yarn test
+        run: yarn test-ci
+      - name: Uploading dist
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist

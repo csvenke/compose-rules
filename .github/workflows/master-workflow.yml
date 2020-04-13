@@ -18,12 +18,13 @@ jobs:
           node-version: 12
       - name: Installing dependencies
         run: yarn install
-      - name: Checking types
-        run: yarn check-types
-      - name: Running linters
-        run: yarn prettier:check
       - name: Running tests
-        run: yarn test
+        run: yarn test-ci
+      - name: Uploading dist
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
 
   release:
     needs: build
@@ -36,10 +37,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: Installing dependencies
-        run: yarn install
-      - name: Building project
-        run: yarn build
+      - name: Downloading dist
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

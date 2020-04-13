@@ -5,12 +5,12 @@
   "license": "MIT",
   "author": "Christian Svenkerud",
   "keywords": [
-    "compose-rules",
     "library",
     "compose",
     "helpers",
     "javascript",
-    "typescript"
+    "typescript",
+    "functional-programming"
   ],
   "repository": {
     "url": "https://github.com/csvenke/compose-rules"
@@ -28,10 +28,12 @@
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "test": "ava",
+    "test-ci": "yarn check-all && yarn test",
     "pretest": "yarn build",
     "prettier": "prettier --write .",
-    "prettier:check": "prettier --check .",
-    "check-types": "tsc"
+    "check-prettier": "prettier --check .",
+    "check-types": "tsc",
+    "check-all": "yarn check-prettier && yarn check-types"
   },
   "devDependencies": {
     "@ava/babel": "1.0.1",
