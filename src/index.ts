@@ -39,6 +39,6 @@ export const or = makeRuleComposer((rules, arg) => {
 });
 
 export const not = makeRuleComposer((rules, arg) => {
-  const results = resolveRules(rules, arg);
+  const results = resolveRules(rules, arg, true);
   return results.every(isFalse);
 });
