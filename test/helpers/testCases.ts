@@ -1,4 +1,11 @@
-import { isAlwaysTrue, isAlwaysFalse } from "./rules";
+import {
+  isAlwaysTrue,
+  isAlwaysFalse,
+  isNamedJohn,
+  isNamedJane,
+  isTrue,
+  isNumberEven
+} from "./rules";
 
 export interface TestCase {
   title: string;
@@ -13,7 +20,7 @@ export interface TestCase {
   };
 }
 
-export const logic: TestCase[] = [
+export const testCases: TestCase[] = [
   {
     title: "should return expected result when all rules returns true",
     input: {
@@ -72,6 +79,82 @@ export const logic: TestCase[] = [
       and: false,
       not: true,
       or: false
+    }
+  },
+  {
+    title:
+      "should return expected result when arg is string and rule returns true",
+    input: {
+      arg: "John",
+      rules: [isNamedJohn]
+    },
+    output: {
+      and: true,
+      or: true,
+      not: false
+    }
+  },
+  {
+    title:
+      "should return expected result when arg is string and rule returns false",
+    input: {
+      arg: "John",
+      rules: [isNamedJane]
+    },
+    output: {
+      and: false,
+      or: false,
+      not: true
+    }
+  },
+  {
+    title: "should return expected result when arg is true",
+    input: {
+      arg: true,
+      rules: [isTrue]
+    },
+    output: {
+      and: true,
+      or: true,
+      not: false
+    }
+  },
+  {
+    title: "should return expected result when arg is false",
+    input: {
+      arg: false,
+      rules: [isTrue]
+    },
+    output: {
+      and: false,
+      or: false,
+      not: true
+    }
+  },
+  {
+    title:
+      "should return expected result when arg is number and rule returns true",
+    input: {
+      arg: 42,
+      rules: [isNumberEven]
+    },
+    output: {
+      and: true,
+      or: true,
+      not: false
+    }
+  },
+  {
+    title:
+      "should return expected result when arg is number and rule returns false",
+    input: {
+      arg: 43,
+      rules: [isNumberEven]
+    },
+    output: {
+      and: false,
+      or: false,
+      not: true
     }
   }
 ];

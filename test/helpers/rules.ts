@@ -15,6 +15,18 @@ export const isNumberLargerThanOne = (arg: number) => arg > 1;
 
 export const isNumberEven = (arg: number) => arg % 2 === 0;
 
+export const isString = (arg?: string) => !!arg && typeof arg === "string";
+
+export const isNamedJohn = (arg: string) => arg === "John";
+
+export const isNamedJane = (arg: string) => arg === "Jane";
+
+export const isBoolean = (arg?: boolean) => !!arg && typeof arg === "boolean";
+
+export const isTrue = (arg: boolean) => arg === true;
+
+export const isFalse = (arg: boolean) => arg === false;
+
 export const isPerson = (arg?: Person) =>
   !!arg &&
   typeof arg.firstName === "string" &&
