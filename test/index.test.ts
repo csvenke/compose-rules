@@ -1,26 +1,15 @@
+import { runTestCases } from "./helpers/utils";
 import {
   isAlwaysTrue,
   isAlwaysFalse,
   isNamedJohn,
   isNamedJane,
   isTrue,
-  isNumberEven
-} from "./rules";
+  isEven
+} from "./helpers/rules";
+import { and, or, not } from "../dist";
 
-export interface TestCase {
-  title: string;
-  input: {
-    arg: any;
-    rules: any[];
-  };
-  output: {
-    and: boolean;
-    or: boolean;
-    not: boolean;
-  };
-}
-
-export const testCases: TestCase[] = [
+const testCases = [
   {
     title: "should return expected result when all rules returns true",
     input: {
@@ -136,7 +125,7 @@ export const testCases: TestCase[] = [
       "should return expected result when arg is number and rule returns true",
     input: {
       arg: 42,
-      rules: [isNumberEven]
+      rules: [isEven]
     },
     output: {
       and: true,
@@ -149,7 +138,7 @@ export const testCases: TestCase[] = [
       "should return expected result when arg is number and rule returns false",
     input: {
       arg: 43,
-      rules: [isNumberEven]
+      rules: [isEven]
     },
     output: {
       and: false,
@@ -158,3 +147,7 @@ export const testCases: TestCase[] = [
     }
   }
 ];
+
+runTestCases("and", and, testCases);
+runTestCases("or", or, testCases);
+runTestCases("not", not, testCases);

@@ -1,11 +1,6 @@
 import test from "ava";
-import { TestCase } from "./testCases";
 
-export const runTestCases = (
-  name: string,
-  composer: any,
-  testCases: TestCase[]
-) => {
+export const runTestCases = (name: string, composer: any, testCases: any) => {
   testCases.forEach(({ title, input, output }) => {
     test(`${name} > ${title}`, t => {
       const rule = composer(...input.rules);
