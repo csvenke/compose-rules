@@ -1,14 +1,14 @@
-type Rule<T = any> = (arg: T) => boolean;
+type Rule<A = any, B = boolean> = (arg: A) => B;
 
-type RuleComposer = <T = any>(...rules: Rule<T>[]) => Rule<T>;
+type RuleComposer<A> = <T = any>(...rules: Rule<T, A>[]) => Rule<T, A>;
 
-type Handler = (rules: any[], arg: any) => boolean;
+type Executor<A> = (rules: Rule<any, A>[], arg: any) => A;
 
-function makeRuleComposer(handler: Handler): RuleComposer {
-  return (...rules) => arg => handler(rules, arg);
+function makeRuleComposer<A = boolean>(executor: Executor<A>): RuleComposer<A> {
+  return (...rules) => arg => executor(rules, arg);
 }
 
-function resolveRules(rules: Rule<any>[], arg: any, breakOn = false) {
+function resolveRules(rules: Rule[], arg: any, breakOn = false) {
   let results = [];
   for (let rule of rules) {
     const result = rule(arg);
