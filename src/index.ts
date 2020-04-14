@@ -1,20 +1,24 @@
 /**
- * A function that takes any argument and returns true or false
+ * A function that takes n arguments and returns true or false
+ *
+ * @since 2.3.1
  */
-export type Rule<TArg = any> = (arg: TArg) => boolean;
+export type Rule<TArgs extends any[] = any> = (...args: TArgs) => boolean;
 
-type RuleComposer = <TArg = any>(...rules: Rule<TArg>[]) => Rule<TArg>;
+type RuleComposer = <TArgs extends any[] = any>(
+  ...rules: Rule<TArgs>[]
+) => Rule<TArgs>;
 
-type Executor = (rules: Rule<any>[], arg: any) => boolean;
+type Executor = (rules: Rule[], args: any[]) => boolean;
 
 function makeRuleComposer(executor: Executor): RuleComposer {
-  return (...rules) => arg => executor(rules, arg);
+  return (...rules) => (...args) => executor(rules, args);
 }
 
-function resolveRules(rules: Rule[], arg: any, breakOn = false) {
+function resolveRules(rules: Rule[], args: any[], breakOn = false) {
   let results = [];
   for (let rule of rules) {
-    const result = rule(arg);
+    const result = rule(...args);
     results.push(result);
     if (result === breakOn) {
       break;
@@ -50,10 +54,10 @@ function isFalse(result: boolean) {
  * console.log(isValidValue(5)); // true
  * ```
  *
- * @since v1.0.0
+ * @since 1.0.0
  */
-export const and = makeRuleComposer((rules, arg) => {
-  const results = resolveRules(rules, arg);
+export const and = makeRuleComposer((rules, args) => {
+  const results = resolveRules(rules, args);
   return results.every(isTrue);
 });
 
@@ -77,10 +81,10 @@ export const and = makeRuleComposer((rules, arg) => {
  * console.log(isValidName("Jane")) // true
  * ```
  *
- * @since v1.1.0
+ * @since 1.1.0
  */
-export const or = makeRuleComposer((rules, arg) => {
-  const results = resolveRules(rules, arg, true);
+export const or = makeRuleComposer((rules, args) => {
+  const results = resolveRules(rules, args, true);
   return results.some(isTrue);
 });
 
@@ -104,10 +108,10 @@ export const or = makeRuleComposer((rules, arg) => {
  * console.log(isValidName("Jane")) // false
  * ```
  *
- * @since v1.1.0
+ * @since 1.1.0
  */
-export const not = makeRuleComposer((rules, arg) => {
-  const results = resolveRules(rules, arg, true);
+export const not = makeRuleComposer((rules, args) => {
+  const results = resolveRules(rules, args, true);
   return results.every(isFalse);
 });
 
@@ -130,11 +134,11 @@ export const not = makeRuleComposer((rules, arg) => {
  * console.log(isValidValue(5)); // false
  * ```
  *
- * @since v2.2.0
+ * @since 2.2.0
  */
-export const nand = makeRuleComposer((rules, arg) => {
+export const nand = makeRuleComposer((rules, args) => {
   const rule = not(and(...rules));
-  return rule(arg);
+  return rule(...args);
 });
 
 /**
@@ -157,9 +161,9 @@ export const nand = makeRuleComposer((rules, arg) => {
  * console.log(isValidName("Jane")) // false
  * ```
  *
- * @since v2.3.0
+ * @since 2.3.0
  */
-export const nor = makeRuleComposer((rules, arg) => {
+export const nor = makeRuleComposer((rules, args) => {
   const rule = not(or(...rules));
-  return rule(arg);
+  return rule(...args);
 });
