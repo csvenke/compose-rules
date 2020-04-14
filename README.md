@@ -47,7 +47,7 @@ Let's say you need to verify that some value is compliant with several requireme
 - It must be an odd number
 - It must be a prime number
 
-You could just write a function that verifies all those requirements, but requirements tend to change, and changes cause regression in your code.
+You could just write a function that verifies all those requirements, but requirements tend to change and changes cause regression in your code.
 What if you instead wrote pure functions that verifies each requirement and then wrote unit tests for each function.
 Then you compose all those functions into a single function that verifies all requirements.
 
