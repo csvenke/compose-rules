@@ -1,3 +1,6 @@
+/**
+ * A function that takes any argument and returns true or false
+ */
 export type Rule<TArg = any> = (arg: TArg) => boolean;
 
 type RuleComposer = <TArg = any>(...rules: Rule<TArg>[]) => Rule<TArg>;
@@ -35,16 +38,16 @@ function isFalse(result: boolean) {
  * import { and } from "@csvenke/compose-rules";
  *
  * // Returns true if number is larger than one
- * const isNumberLargerThanOne = n => n > 1;
+ * const isLargerThanOne = n => n > 1;
  *
  * // Returns true if number is less than ten
- * const isNumberLessThanTen = n => n < 10;
+ * const isLessThanTen = n => n < 10;
  *
  * // Returns true if all rules returns true
- * const hasValidValue = and(isNumberLargerThanOne, isNumberLessThanTen);
+ * const isValidValue = and(isLargerThanOne, isLessThanTen);
  *
- * console.log(hasValidValue(11)); // false
- * console.log(hasValidValue(5)); // true
+ * console.log(isValidValue(11)); // false
+ * console.log(isValidValue(5)); // true
  * ```
  *
  * @since v1.0.0
@@ -115,16 +118,16 @@ export const not = makeRuleComposer((rules, arg) => {
  * import { nand } from "@csvenke/compose-rules";
  *
  * // Returns true if number is larger than one
- * const isNumberLargerThanOne = n => n > 1;
+ * const isLargerThanOne = n => n > 1;
  *
  * // Returns true if number is less than ten
- * const isNumberLessThanTen = n => n < 10;
+ * const isLessThanTen = n => n < 10;
  *
  * // Returns false if all rules returns true
- * const hasValidValue = nand(isNumberLargerThanOne, isNumberLessThanTen);
+ * const isValidValue = nand(isLargerThanOne, isLessThanTen);
  *
- * console.log(hasValidValue(11)); // true
- * console.log(hasValidValue(5)); // false
+ * console.log(isValidValue(11)); // true
+ * console.log(isValidValue(5)); // false
  * ```
  *
  * @since v2.2.0

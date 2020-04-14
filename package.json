@@ -1,20 +1,23 @@
 {
   "name": "@csvenke/compose-rules",
-  "description": "Simple helper functions for writing composable business rules",
+  "description": "Dead simple helpers for writing composable rules",
   "version": "0.0.1",
   "license": "MIT",
-  "author": "Christian Svenkerud",
+  "author": "Christian Svenkerud <csvenke@gmail.com>",
   "keywords": [
     "library",
-    "compose",
     "helpers",
+    "compose",
+    "composition",
+    "functional-programming",
+    "functional-composition",
     "javascript",
-    "typescript",
-    "functional-programming"
+    "typescript"
   ],
   "repository": {
     "url": "https://github.com/csvenke/compose-rules"
   },
+  "homepage": "https://csvenke.github.io/compose-rules",
   "publishConfig": {
     "access": "public"
   },

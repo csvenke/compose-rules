@@ -1,5 +1,5 @@
 <h1 align="center" style="border-bottom: none;">@csvenke/compose-rules</h1>
-<h3 align="center">Simple helpers for writing composable business rules</h3>
+<h3 align="center">Dead simple helpers for writing composable rules</h3>
 <p align="center">
   <a href="https://www.npmjs.com/package/@csvenke/compose-rules">
     <img src="https://badgen.net/npm/v/@csvenke/compose-rules" alt="npm package" />
@@ -18,8 +18,18 @@
   </a>
 </p>
 
-**@csvenke/compose-rules** provides dead simple helpers for writing composable business rules.
-Attack complex problems by dividing them into smaller easier problems.
+<p align="center">
+  <a href="#install">Install</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#documentation">Documentation</a> •
+  <a href="#why">Why</a> •
+  <a href="#development">Development</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a>
+</p>
+
+**@csvenke/compose-rules** provides dead simple helpers for writing composable rules.
+Attack complex problems by dividing them into smaller functions that can then be composed into bigger functions!
 
 > "Nothing is particularly hard if you divide it into small jobs" - [Henry Ford](https://no.wikipedia.org/wiki/Henry_Ford)
 
@@ -37,9 +47,30 @@ Using yarn
 yarn add @csvenke/compose-rules
 ```
 
-## Example
+## Usage
 
-Let's say you need to verify that some value is compliant with several requirements.
+[Try it out online with repl.it!](https://repl.it/@csvenke/PunyCalculatingServers)
+
+```js
+import { and } from "@csvenke/compose-rules";
+
+const isLargerThanOne = n => n > 1;
+
+const isLessThanTen = n => n < 10;
+
+const isValidValue = and(isLargerThanOne, isLessThanTen);
+
+console.log(isValidValue(4)); // true
+console.log(isValidValue(14)); // false
+```
+
+## Documentation
+
+The documentation can be found [here](https://csvenke.github.io/compose-rules)
+
+## Why
+
+Let's say you need to verify that some value complies with a series of requirements.
 
 - It must be a number
 - It must be larger than 1
@@ -47,11 +78,15 @@ Let's say you need to verify that some value is compliant with several requireme
 - It must be an odd number
 - It must be a prime number
 
-You could just write a function that verifies all those requirements, but requirements tend to change and changes cause regression in your code.
-What if you instead wrote pure functions that verifies each requirement and then wrote unit tests for each function.
-Then you compose all those functions into a single function that verifies all requirements.
+You could just write a function that verifies all those requirements, but requirements tend to change and changes tend to cause regression in your code.
 
-The benefit of this approach is when requirements change you simply add/remove/edit specific functions from the composer without affecting the other functions.
+You should instead write separate functions that verify each requirement and then compose all those functions into a single function that verifies all the requirements.
+
+The main benefit of this approach is when requirements change you simply add/remove/edit specific functions from the composer without affecting the other functions.
+
+See the example below for what that might look like.
+
+### Example
 
 [Try it out online with repl.it!](https://repl.it/@csvenke/WorseMiserlyScale)
 
@@ -106,151 +141,6 @@ console.log(isValidValue(5)); // true
 console.log(isValidValue(8)); // false
 console.log(isValidValue("Hello")); // false
 console.log(isValidValue(undefined)); // false
-```
-
-## API
-
-### **and**
-
-> Returns a rule function that returns true if all rules are true.
-
-#### Example
-
-```js
-import { and } from "@csvenke/compose-rules";
-
-/**
- * Returns true if n is larger than one
- */
-const isNumberLargerThanOne = n => n > 1;
-
-/**
- * Returns true if n is less than ten
- */
-const isNumberLessThanTen = n => n < 10;
-
-/**
- * Returns true if all rules returns true
- */
-const hasValidValue = and(isNumberLargerThanOne, isNumberLessThanTen);
-
-console.log(hasValidValue(11)); // false
-console.log(hasValidValue(5)); // true
-```
-
-### **or**
-
-> Returns a rule function that returns true if some rules are true.
-
-#### Example
-
-```js
-import { or } from "@csvenke/compose-rules";
-
-/**
- * Returns true if name equal 'John'
- */
-const isNamedJohn = name => name === "John";
-
-/**
- * Returns true if name equals 'Jane'
- */
-const isNamedJane = name => name === "Jane";
-
-/**
- * Returns true if name equals 'John' or 'Jane'
- */
-const hasValidName = or(isNamedJohn, isNamedJane);
-
-console.log(hasValidName("Billy")); // false
-console.log(hasValidName("John")); // true
-console.log(hasValidName("Jane")); // true
-```
-
-### **not**
-
-> Returns a rule function that returns true if all rules are false.
-
-#### Example
-
-```js
-import { not } from "@csvenke/compose-rules";
-
-/**
- * Returns true if name is 'John'
- */
-const isNamedJohn = name => name === "John";
-
-/**
- * Returns true if name is 'Jane'
- */
-const isNamedJane = name => name === "Jane";
-
-/**
- * Returns true if name is not 'John' or 'Jane'
- */
-const hasValidName = not(isNamedJohn, isNamedJane);
-
-console.log(hasValidName("John")); // false
-console.log(hasValidName("Jane")); // false
-console.log(hasValidName("Billy")); // true
-```
-
-### **nand**
-
-> Returns a rule function that returns false if all rules are true.
-
-#### Example
-
-```js
-import { nand } from "@csvenke/compose-rules";
-
-/**
- * Returns true if n is larger than one
- */
-const isNumberLargerThanOne = n => n > 1;
-
-/**
- * Returns true if n is less than ten
- */
-const isNumberLessThanTen = n => n < 10;
-
-/**
- * Returns false if all rules returns true
- */
-const hasValidValue = nand(isNumberLargerThanOne, isNumberLessThanTen);
-
-console.log(hasValidValue(11)); // true
-console.log(hasValidValue(5)); // false
-```
-
-### **nor**
-
-> Returns a rule function that returns false if some rules are true.
-
-#### Example
-
-```js
-import { nor } from "@csvenke/compose-rules";
-
-/**
- * Returns true if name equal 'John'
- */
-const isNamedJohn = name => name === "John";
-
-/**
- * Returns true if name equals 'Jane'
- */
-const isNamedJane = name => name === "Jane";
-
-/**
- * Returns true if name equals 'John' or 'Jane'
- */
-const hasValidName = nor(isNamedJohn, isNamedJane);
-
-console.log(hasValidName("Billy")); // true
-console.log(hasValidName("John")); // false
-console.log(hasValidName("Jane")); // false
 ```
 
 ## Development
