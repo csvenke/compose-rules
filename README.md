@@ -196,6 +196,34 @@ console.log(hasValidName("Jane")); // false
 console.log(hasValidName("Billy")); // true
 ```
 
+### **nand**
+
+> Returns a rule function that returns false if all rules are true.
+
+#### Example
+
+```js
+import { nand } from "@csvenke/compose-rules";
+
+/**
+ * Returns true if n is larger than one
+ */
+const isNumberLargerThanOne = n => n > 1;
+
+/**
+ * Returns true if n is less than ten
+ */
+const isNumberLessThanTen = n => n < 10;
+
+/**
+ * Returns false if all rules returns true
+ */
+const hasValidValue = nand(isNumberLargerThanOne, isNumberLessThanTen);
+
+console.log(hasValidValue(11)); // true
+console.log(hasValidValue(5)); // false
+```
+
 ## Development
 
 Installing dependencies

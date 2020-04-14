@@ -42,3 +42,8 @@ export const not = makeRuleComposer((rules, arg) => {
   const results = resolveRules(rules, arg, true);
   return results.every(isFalse);
 });
+
+export const nand = makeRuleComposer((rules, arg) => {
+  const rule = not(and(...rules));
+  return rule(arg);
+});

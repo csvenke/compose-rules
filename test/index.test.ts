@@ -7,7 +7,7 @@ import {
   isTrue,
   isEven
 } from "./helpers/rules";
-import { and, or, not } from "../dist";
+import { and, or, not, nand } from "../dist";
 
 const testCases = [
   {
@@ -19,7 +19,8 @@ const testCases = [
     output: {
       and: true,
       not: false,
-      or: true
+      or: true,
+      nand: false
     }
   },
   {
@@ -31,7 +32,8 @@ const testCases = [
     output: {
       and: false,
       not: false,
-      or: true
+      or: true,
+      nand: true
     }
   },
   {
@@ -43,7 +45,8 @@ const testCases = [
     output: {
       and: false,
       not: false,
-      or: true
+      or: true,
+      nand: true
     }
   },
   {
@@ -55,7 +58,8 @@ const testCases = [
     output: {
       and: false,
       not: false,
-      or: true
+      or: true,
+      nand: true
     }
   },
   {
@@ -67,7 +71,8 @@ const testCases = [
     output: {
       and: false,
       not: true,
-      or: false
+      or: false,
+      nand: true
     }
   },
   {
@@ -80,7 +85,8 @@ const testCases = [
     output: {
       and: true,
       or: true,
-      not: false
+      not: false,
+      nand: false
     }
   },
   {
@@ -93,7 +99,8 @@ const testCases = [
     output: {
       and: false,
       or: false,
-      not: true
+      not: true,
+      nand: true
     }
   },
   {
@@ -105,7 +112,8 @@ const testCases = [
     output: {
       and: true,
       or: true,
-      not: false
+      not: false,
+      nand: false
     }
   },
   {
@@ -117,7 +125,8 @@ const testCases = [
     output: {
       and: false,
       or: false,
-      not: true
+      not: true,
+      nand: true
     }
   },
   {
@@ -130,7 +139,8 @@ const testCases = [
     output: {
       and: true,
       or: true,
-      not: false
+      not: false,
+      nand: false
     }
   },
   {
@@ -143,7 +153,8 @@ const testCases = [
     output: {
       and: false,
       or: false,
-      not: true
+      not: true,
+      nand: true
     }
   }
 ];
@@ -151,3 +162,4 @@ const testCases = [
 runTestCases("and", and, testCases);
 runTestCases("or", or, testCases);
 runTestCases("not", not, testCases);
+runTestCases("nand", nand, testCases);
