@@ -46,3 +46,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
+
+  docs:
+    needs: release
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out project
+        uses: actions/checkout@v2
+      - name: Setting up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Installing dependencies
+        run: yarn install
+      - name: Building docs
+        run: yarn docs
+      - name: Deploying docs
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v1
+        with:
+          target_branch: gh-pages
+          build_dir: docs
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_GITHUB }}
