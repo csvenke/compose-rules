@@ -47,3 +47,8 @@ export const nand = makeRuleComposer((rules, arg) => {
   const rule = not(and(...rules));
   return rule(arg);
 });
+
+export const nor = makeRuleComposer((rules, arg) => {
+  const rule = not(or(...rules));
+  return rule(arg);
+});

@@ -224,6 +224,35 @@ console.log(hasValidValue(11)); // true
 console.log(hasValidValue(5)); // false
 ```
 
+### **nor**
+
+> Returns a rule function that returns false if some rules are true.
+
+#### Example
+
+```js
+import { nor } from "@csvenke/compose-rules";
+
+/**
+ * Returns true if name equal 'John'
+ */
+const isNamedJohn = name => name === "John";
+
+/**
+ * Returns true if name equals 'Jane'
+ */
+const isNamedJane = name => name === "Jane";
+
+/**
+ * Returns true if name equals 'John' or 'Jane'
+ */
+const hasValidName = nor(isNamedJohn, isNamedJane);
+
+console.log(hasValidName("Billy")); // true
+console.log(hasValidName("John")); // false
+console.log(hasValidName("Jane")); // false
+```
+
 ## Development
 
 Installing dependencies

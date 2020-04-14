@@ -7,7 +7,7 @@ import {
   isTrue,
   isEven
 } from "./helpers/rules";
-import { and, or, not, nand } from "../dist";
+import { and, or, not, nand, nor } from "../dist";
 
 const testCases = [
   {
@@ -18,9 +18,10 @@ const testCases = [
     },
     output: {
       and: true,
-      not: false,
       or: true,
-      nand: false
+      not: false,
+      nand: false,
+      nor: false
     }
   },
   {
@@ -31,9 +32,10 @@ const testCases = [
     },
     output: {
       and: false,
-      not: false,
       or: true,
-      nand: true
+      not: false,
+      nand: true,
+      nor: false
     }
   },
   {
@@ -44,9 +46,10 @@ const testCases = [
     },
     output: {
       and: false,
-      not: false,
       or: true,
-      nand: true
+      not: false,
+      nand: true,
+      nor: false
     }
   },
   {
@@ -57,9 +60,10 @@ const testCases = [
     },
     output: {
       and: false,
-      not: false,
       or: true,
-      nand: true
+      not: false,
+      nand: true,
+      nor: false
     }
   },
   {
@@ -70,9 +74,10 @@ const testCases = [
     },
     output: {
       and: false,
-      not: true,
       or: false,
-      nand: true
+      not: true,
+      nand: true,
+      nor: true
     }
   },
   {
@@ -86,7 +91,8 @@ const testCases = [
       and: true,
       or: true,
       not: false,
-      nand: false
+      nand: false,
+      nor: false
     }
   },
   {
@@ -100,7 +106,8 @@ const testCases = [
       and: false,
       or: false,
       not: true,
-      nand: true
+      nand: true,
+      nor: true
     }
   },
   {
@@ -113,7 +120,8 @@ const testCases = [
       and: true,
       or: true,
       not: false,
-      nand: false
+      nand: false,
+      nor: false
     }
   },
   {
@@ -126,7 +134,8 @@ const testCases = [
       and: false,
       or: false,
       not: true,
-      nand: true
+      nand: true,
+      nor: true
     }
   },
   {
@@ -140,7 +149,8 @@ const testCases = [
       and: true,
       or: true,
       not: false,
-      nand: false
+      nand: false,
+      nor: false
     }
   },
   {
@@ -154,7 +164,8 @@ const testCases = [
       and: false,
       or: false,
       not: true,
-      nand: true
+      nand: true,
+      nor: true
     }
   }
 ];
@@ -163,3 +174,4 @@ runTestCases("and", and, testCases);
 runTestCases("or", or, testCases);
 runTestCases("not", not, testCases);
 runTestCases("nand", nand, testCases);
+runTestCases("nor", nor, testCases);
