@@ -10,5 +10,10 @@
     "isolatedModules": true,
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "typedocOptions": {
+    "mode": "library",
+    "out": "docs",
+    "readme": "none"
+  }
 }
