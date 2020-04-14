@@ -20,33 +20,73 @@
 
 ## Install
 
-Using yarn
-
-```
-yarn add @csvenke/compose-rules
-```
-
 Using npm
 
 ```
 npm install --save @csvenke/compose-rules
 ```
 
+Using yarn
+
+```
+yarn add @csvenke/compose-rules
+```
+
 ## Usage
 
-Try it out online with [replit](https://repl.it/@csvenke/WorseMiserlyScale)
+[Try it out online with repl.it!](https://repl.it/@csvenke/WorseMiserlyScale)
 
 ```js
-import { and } from "@csvenke/compose-rules";
+import { and, not } from "@csvenke/compose-rules";
 
+/**
+ * Returns true if n is number
+ */
 const isNumber = n => typeof n === "number";
-const isLargerThanOne = n => n > 1;
-const isLessThanTen = n => n < 10;
 
-const isValidValue = and(isNumber, isLargerThanOne, isLessThanTen);
+/**
+ * Returns true if n is larger than one
+ */
+const isNumberLargerThanOne = n => n > 1;
 
-console.log(isValidValue(4)); // true
-console.log(isValidValue(14)); // false
+/**
+ * Returns true if n is less than ten
+ */
+const isNumberLessThanTen = n => n < 10;
+
+/**
+ * Returns true if n is even
+ */
+const isNumberEven = n => n % 2 === 0;
+
+/**
+ * Returns true if n is odd
+ */
+const isNumberOdd = not(isNumberEven);
+
+/**
+ * Returns true if n is prime
+ */
+const isNumberPrime = n => {
+  for (let i = 2; i < n; i++) if (n % i === 0) return false;
+  return n > 1;
+};
+
+/**
+ * Returns true if all rules returns true
+ */
+const isValidValue = and(
+  isNumber,
+  isNumberLargerThanOne,
+  isNumberLessThanTen,
+  isNumberOdd,
+  isNumberPrime
+);
+
+console.log(isValidValue(5)); // true
+console.log(isValidValue(8)); // false
+console.log(isValidValue("Hello")); // false
+console.log(isValidValue(undefined)); // false
 ```
 
 ## API
@@ -60,10 +100,20 @@ console.log(isValidValue(14)); // false
 ```js
 import { and } from "@csvenke/compose-rules";
 
-const isLargerThanOne = n => n > 1;
-const isLessThanTen = n => n < 10;
+/**
+ * Returns true if n is larger than one
+ */
+const isNumberLargerThanOne = n => n > 1;
 
-const hasValidValue = and(isLargerThanOne, isLessThanTen);
+/**
+ * Returns true if n is less than ten
+ */
+const isNumberLessThanTen = n => n < 10;
+
+/**
+ * Returns true if all rules returns true
+ */
+const hasValidValue = and(isNumberLargerThanOne, isNumberLessThanTen);
 
 console.log(hasValidValue(11)); // false
 console.log(hasValidValue(5)); // true
@@ -78,12 +128,23 @@ console.log(hasValidValue(5)); // true
 ```js
 import { or } from "@csvenke/compose-rules";
 
+/**
+ * Returns true if name equal 'John'
+ */
 const isNamedJohn = name => name === "John";
+
+/**
+ * Returns true if name equals 'Jane'
+ */
 const isNamedJane = name => name === "Jane";
 
+/**
+ * Returns true if name equals 'John' or 'Jane'
+ */
 const hasValidName = or(isNamedJohn, isNamedJane);
 
-console.log(hasValidName("Bill")); // false
+console.log(hasValidName("Billy")); // false
+console.log(hasValidName("John")); // true
 console.log(hasValidName("Jane")); // true
 ```
 
@@ -96,14 +157,24 @@ console.log(hasValidName("Jane")); // true
 ```js
 import { not } from "@csvenke/compose-rules";
 
+/**
+ * Returns true if name is 'John'
+ */
 const isNamedJohn = name => name === "John";
+
+/**
+ * Returns true if name is 'Jane'
+ */
 const isNamedJane = name => name === "Jane";
 
+/**
+ * Returns true if name is not 'John' or 'Jane'
+ */
 const hasValidName = not(isNamedJohn, isNamedJane);
 
-console.log(hasValidName("Bill")); // true
-console.log(hasValidName("Jane")); // false
 console.log(hasValidName("John")); // false
+console.log(hasValidName("Jane")); // false
+console.log(hasValidName("Billy")); // true
 ```
 
 ## Development
@@ -112,12 +183,6 @@ Installing dependencies
 
 ```
 yarn install
-```
-
-Building project
-
-```
-yarn build
 ```
 
 Running tests
