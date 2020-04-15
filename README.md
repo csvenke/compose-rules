@@ -29,7 +29,7 @@
 </p>
 
 **@csvenke/compose-rules** provides dead simple helpers for writing composable rules.
-Attack complex problems by dividing them into smaller functions that can then be composed into bigger functions!
+Attack complex problems by dividing them into smaller easier problems.
 
 > "Nothing is particularly hard if you divide it into small jobs" - [Henry Ford](https://no.wikipedia.org/wiki/Henry_Ford)
 
