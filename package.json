@@ -61,7 +61,8 @@
   "ava": {
     "verbose": true,
     "files": [
-      "test/**/*.test.ts"
+      "test/**/*",
+      "!test/helpers/**/*"
     ],
     "babel": {
       "compileAsTests": [
