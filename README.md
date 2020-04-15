@@ -122,7 +122,7 @@ const isNumberOdd = not(isNumberEven);
  * Returns true if n is prime
  */
 const isNumberPrime = n => {
-  for (let i = 2; i < n; i++) if (n % i === 0) return false;
+  for (let i = 2, s = Math.sqrt(n); i <= s; i++) if (n % i === 0) return false;
   return n > 1;
 };
 
