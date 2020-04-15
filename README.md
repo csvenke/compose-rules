@@ -19,6 +19,7 @@
 </p>
 
 <p align="center">
+  <a href="#overview">Overview</a> •
   <a href="#install">Install</a> •
   <a href="#usage">Usage</a> •
   <a href="#documentation">Documentation</a> •
@@ -32,6 +33,39 @@
 Attack complex problems by dividing them into smaller easier problems.
 
 > "Nothing is particularly hard if you divide it into small jobs" - [Henry Ford](https://no.wikipedia.org/wiki/Henry_Ford)
+
+## Overview
+
+- Compose your rules with a dead simple API!
+
+```js
+import { and, or, not } from "@csvenke/compose-rules";
+
+const myRule = and(myRule1, or(myRule2, myRule3), not(myRule4));
+```
+
+- Rich typescript support!
+
+```ts
+import { and, Rule } from "@csvenke/compose-rules";
+
+type MyRule = Rule<[string, string]>;
+
+const myRule1: MyRule = (firstName, lastName) => true;
+
+const myRule2: MyRule = (firstName, lastName) => true;
+
+// type inteference from first rule!
+const myRule = and(myRule1, myRule2);
+
+myRule("John", "Doe"); // Ok!
+myRule("John"); // Error!
+```
+
+- No dependencies!
+- Tiny bundle size!
+- Tree shakeable and side effect free!
+- 100% test coverage!
 
 ## Install
 
