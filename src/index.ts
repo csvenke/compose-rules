@@ -3,11 +3,9 @@
  *
  * @since 2.3.1
  */
-export type Rule<TArgs extends any[] = any> = (...args: TArgs) => boolean;
+export type Rule<T extends any[] = any> = (...args: T) => boolean;
 
-type RuleComposer = <TArgs extends any[] = any>(
-  ...rules: Rule<TArgs>[]
-) => Rule<TArgs>;
+type RuleComposer = <T extends any[] = any>(...rules: Rule<T>[]) => Rule<T>;
 
 type Executor = (rules: Rule[], args: any[]) => boolean;
 
