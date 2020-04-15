@@ -55,7 +55,7 @@ const myRule1: MyRule = (firstName, lastName) => true;
 
 const myRule2: MyRule = (firstName, lastName) => true;
 
-// type inteference from first rule!
+// type inference from first rule!
 const myRule = and(myRule1, myRule2);
 
 myRule("John", "Doe"); // Ok!
