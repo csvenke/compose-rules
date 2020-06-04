@@ -48,7 +48,7 @@
     "@types/node": "13.13.9",
     "ava": "3.8.2",
     "husky": "4.2.5",
-    "lint-staged": "10.2.8",
+    "lint-staged": "10.2.9",
     "prettier": "2.0.5",
     "rollup": "2.13.1",
     "rollup-plugin-babel": "4.4.0",
