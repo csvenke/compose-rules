@@ -45,7 +45,7 @@
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@csvenke/prettier-config": "3.0.0",
-    "@types/node": "13.13.14",
+    "@types/node": "13.13.15",
     "ava": "3.10.1",
     "husky": "4.2.5",
     "lint-staged": "10.2.11",
