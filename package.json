@@ -54,7 +54,7 @@
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-terser": "5.3.0",
     "rollup-plugin-typescript2": "0.27.2",
-    "typedoc": "0.19.0",
+    "typedoc": "0.17.0-3",
     "typescript": "3.9.7"
   },
   "prettier": "@csvenke/prettier-config",

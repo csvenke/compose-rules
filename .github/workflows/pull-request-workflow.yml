@@ -17,6 +17,8 @@ jobs:
         run: yarn install
       - name: Running tests
         run: yarn test-ci
+      - name: Building docs
+        run: yarn docs
       - name: Uploading dist
         uses: actions/upload-artifact@v1
         with:
