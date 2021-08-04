@@ -40,7 +40,7 @@
     "docs": "rm -rf docs && typedoc --tsconfig tsconfig.json"
   },
   "devDependencies": {
-    "@ava/babel": "1.0.1",
+    "@ava/babel": "2.0.0",
     "@babel/preset-typescript": "7.15.0",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
