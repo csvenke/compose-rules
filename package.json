@@ -42,8 +42,8 @@
   "devDependencies": {
     "@ava/babel": "2.0.0",
     "@babel/preset-typescript": "7.15.0",
-    "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
+    "@commitlint/cli": "13.1.0",
+    "@commitlint/config-conventional": "13.1.0",
     "@csvenke/prettier-config": "3.0.0",
     "@types/node": "14.17.11",
     "ava": "3.15.0",
