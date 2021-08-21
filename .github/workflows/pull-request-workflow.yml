@@ -20,7 +20,7 @@ jobs:
       - name: Building docs
         run: yarn docs
       - name: Uploading dist
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
